@@ -1,0 +1,62 @@
+[
+    {
+        "district": "Medeu",
+        "traffic_level": 8,
+        "avg_speed": 16,
+        "accidents": 4,
+        "pm25": 47,
+        "co": 1.48,
+        "humidity": 44,
+        "temperature": 22
+    },
+    {
+        "district": "Bostandyk",
+        "traffic_level": 7,
+        "avg_speed": 46,
+        "accidents": 1,
+        "pm25": 34,
+        "co": 1.16,
+        "humidity": 30,
+        "temperature": 10
+    },
+    {
+        "district": "Almaly",
+        "traffic_level": 3,
+        "avg_speed": 32,
+        "accidents": 1,
+        "pm25": 16,
+        "co": 1.01,
+        "humidity": 61,
+        "temperature": 19
+    },
+    {
+        "district": "Auezov",
+        "traffic_level": 6,
+        "avg_speed": 25,
+        "accidents": 1,
+        "pm25": 11,
+        "co": 0.41,
+        "humidity": 52,
+        "temperature": 29
+    },
+    {
+        "district": "Turksib",
+        "traffic_level": 8,
+        "avg_speed": 17,
+        "accidents": 1,
+        "pm25": 26,
+        "co": 1.33,
+        "humidity": 66,
+        "temperature": 20
+    },
+    {
+        "district": "Nauryzbay",
+        "traffic_level": 6,
+        "avg_speed": 54,
+        "accidents": 2,
+        "pm25": 20,
+        "co": 1.15,
+        "humidity": 71,
+        "temperature": 21
+    }
+]
