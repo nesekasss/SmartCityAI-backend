@@ -1,31 +1,49 @@
-# SmartCityAI – Backend
+# 🧠 SmartCityAI
 
-## Overview
-SmartCityAI is an AI-powered system for monitoring urban conditions and supporting decision-making.
+## 📌 Описание
 
-This backend provides:
-- real-time city analytics
-- anomaly detection
-- risk scoring
-- AI-generated recommendations
-- forecasting
+SmartCityAI — это AI-система для мониторинга состояния города и поддержки управленческих решений в реальном времени.
 
-## Features
-- Transport and environmental analysis
-- Risk scoring system
-- AI decision engine
-- Forecasting module
-- REST API
+Система анализирует данные по транспорту и экологии, выявляет проблемы и автоматически предлагает решения.
 
-## API Endpoints
+---
 
-- `/api/overview` – city KPI
-- `/api/districts` – district data
-- `/api/ai-report` – AI insights
-- `/api/trends` – historical data
-- `/api/dashboard` – full dataset
+## 🚀 Основной функционал
 
-## How to run
+- 📊 Единый dashboard состояния города (KPI)
+- 🚦 Анализ транспорта (пробки, скорость, ДТП)
+- 🌫 Экологический мониторинг (PM2.5, CO)
+- ⚠️ Выявление аномалий
+- 🧮 Оценка риска и приоритизация районов
+- 🤖 AI-рекомендации:
+  - что происходит  
+  - насколько критично  
+  - что делать  
+- 🔮 Прогноз на 1–2 часа
+- 📈 Исторические данные
+
+---
+
+## 🌐 API
+
+- `/api/overview`
+- `/api/districts`
+- `/api/ai-report`
+- `/api/trends`
+- `/api/dashboard`
+
+---
+
+## ⚙️ Технологии
+
+- Python  
+- FastAPI  
+- REST API  
+- ngrok (доступ извне)
+
+---
+
+## 🚀 Запуск
 
 ```bash
 pip install -r requirements.txt
