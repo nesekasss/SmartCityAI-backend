@@ -2,61 +2,61 @@
     {
         "district": "Medeu",
         "traffic_level": 10,
-        "avg_speed": 14,
-        "accidents": 3,
-        "pm25": 60,
-        "co": 1.46,
-        "humidity": 37,
-        "temperature": 24
+        "avg_speed": 12,
+        "accidents": 4,
+        "pm25": 46,
+        "co": 1.92,
+        "humidity": 34,
+        "temperature": 34
     },
     {
         "district": "Bostandyk",
-        "traffic_level": 4,
-        "avg_speed": 22,
-        "accidents": 3,
-        "pm25": 24,
-        "co": 0.53,
-        "humidity": 57,
-        "temperature": 19
+        "traffic_level": 3,
+        "avg_speed": 49,
+        "accidents": 0,
+        "pm25": 19,
+        "co": 0.48,
+        "humidity": 62,
+        "temperature": 31
     },
     {
         "district": "Almaly",
-        "traffic_level": 5,
-        "avg_speed": 31,
+        "traffic_level": 6,
+        "avg_speed": 28,
         "accidents": 3,
-        "pm25": 13,
-        "co": 1.05,
-        "humidity": 62,
-        "temperature": 20
+        "pm25": 17,
+        "co": 0.95,
+        "humidity": 53,
+        "temperature": 26
     },
     {
         "district": "Auezov",
-        "traffic_level": 4,
-        "avg_speed": 38,
-        "accidents": 1,
-        "pm25": 29,
-        "co": 0.79,
-        "humidity": 37,
-        "temperature": 24
+        "traffic_level": 7,
+        "avg_speed": 41,
+        "accidents": 0,
+        "pm25": 17,
+        "co": 0.53,
+        "humidity": 79,
+        "temperature": 20
     },
     {
         "district": "Turksib",
-        "traffic_level": 6,
-        "avg_speed": 16,
+        "traffic_level": 8,
+        "avg_speed": 24,
         "accidents": 1,
-        "pm25": 24,
-        "co": 1.52,
-        "humidity": 54,
-        "temperature": 10
+        "pm25": 23,
+        "co": 1.06,
+        "humidity": 72,
+        "temperature": 22
     },
     {
         "district": "Nauryzbay",
         "traffic_level": 6,
-        "avg_speed": 30,
+        "avg_speed": 35,
         "accidents": 0,
-        "pm25": 17,
-        "co": 0.86,
-        "humidity": 68,
-        "temperature": 19
+        "pm25": 25,
+        "co": 1.01,
+        "humidity": 63,
+        "temperature": 27
     }
 ]

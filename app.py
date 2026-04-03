@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from services.data_loader import load_current_data, load_history_data
 from services.analytics import analyze_city
-from services.ai_module import generate_ai_report
+from services.ai_module import generate_ai_report, generate_alerts, district_ranking
 from services.formatter import build_overview, build_meta, build_summary
 
 app = FastAPI(title="Smart City AI Backend")
@@ -27,6 +27,8 @@ def root():
             "/api/ai-report",
             "/api/trends",
             "/api/dashboard",
+            "/api/alerts",
+            "/api/ranking",
         ],
     }
 
@@ -76,6 +78,28 @@ def get_trends():
     }
 
 
+@app.get("/api/alerts")
+def get_alerts():
+    current_data = load_current_data()
+    analyzed = analyze_city(current_data)
+
+    return {
+        "meta": build_meta(),
+        "alerts": generate_alerts(analyzed),
+    }
+
+
+@app.get("/api/ranking")
+def get_ranking():
+    current_data = load_current_data()
+    analyzed = analyze_city(current_data)
+
+    return {
+        "meta": build_meta(),
+        "ranking": district_ranking(analyzed),
+    }
+
+
 @app.get("/api/dashboard")
 def get_dashboard():
     current_data = load_current_data()
@@ -84,6 +108,8 @@ def get_dashboard():
     ai_report = generate_ai_report(analyzed)
     overview = build_overview(analyzed)
     summary = build_summary(analyzed)
+    alerts = generate_alerts(analyzed)
+    ranking = district_ranking(analyzed)
 
     return {
         "meta": build_meta(),
@@ -92,4 +118,6 @@ def get_dashboard():
         "districts": analyzed,
         "ai_report": ai_report,
         "history": history,
+        "alerts": alerts,
+        "ranking": ranking,
     }
