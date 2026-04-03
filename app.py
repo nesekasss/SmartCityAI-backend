@@ -8,10 +8,9 @@ from services.formatter import build_overview, build_meta, build_summary
 
 app = FastAPI(title="Smart City AI Backend")
 
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -59,10 +58,11 @@ def get_districts():
 def get_ai_report():
     current_data = load_current_data()
     analyzed = analyze_city(current_data)
+    ai_report = generate_ai_report(analyzed)
 
     return {
         "meta": build_meta(),
-        "ai_report": generate_ai_report(analyzed),
+        "ai_report": ai_report,
     }
 
 
@@ -81,12 +81,15 @@ def get_dashboard():
     current_data = load_current_data()
     history = load_history_data()
     analyzed = analyze_city(current_data)
+    ai_report = generate_ai_report(analyzed)
+    overview = build_overview(analyzed)
+    summary = build_summary(analyzed)
 
     return {
         "meta": build_meta(),
-        "overview": build_overview(analyzed),
-        "summary": build_summary(analyzed),
+        "overview": overview,
+        "summary": summary,
         "districts": analyzed,
-        "ai_report": generate_ai_report(analyzed),
+        "ai_report": ai_report,
         "history": history,
     }

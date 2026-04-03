@@ -9,14 +9,18 @@ def forecast_district(district_data):
 
     if traffic >= 8 or pm25 > 35 or co > 1.5:
         forecast_summary = "Conditions are likely to worsen in the next 1-2 hours."
+        trend = "negative"
     elif traffic >= 5 or pm25 > 20 or co > 1.0:
         forecast_summary = "Moderate deterioration is possible in the next 1-2 hours."
+        trend = "warning"
     else:
         forecast_summary = "Conditions are expected to remain stable."
+        trend = "stable"
 
     return {
         "predicted_traffic_level_2h": predicted_traffic_level_2h,
         "predicted_pm25_2h": predicted_pm25_2h,
         "predicted_co_2h": predicted_co_2h,
         "forecast_summary": forecast_summary,
+        "trend": trend,
     }

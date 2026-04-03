@@ -3,8 +3,11 @@ from services.scoring import (
     calculate_environment_score,
     calculate_total_risk,
     risk_to_priority,
+    calculate_confidence,
+    calculate_decision_score,
 )
 from services.forecasting import forecast_district
+
 
 def detect_anomaly(d):
     reasons = []
@@ -22,6 +25,7 @@ def detect_anomaly(d):
 
     return len(reasons) > 0, reasons
 
+
 def determine_transport_status(traffic_level, avg_speed):
     if traffic_level >= 8 or avg_speed < 20:
         return "critical"
@@ -29,12 +33,37 @@ def determine_transport_status(traffic_level, avg_speed):
         return "warning"
     return "stable"
 
+
 def determine_environment_status(pm25, co):
     if pm25 > 35 or co > 1.5:
         return "critical"
     if pm25 > 20 or co > 1.0:
         return "warning"
     return "stable"
+
+
+def detect_correlation(d):
+    traffic_level = d["traffic_level"]
+    pm25 = d["pm25"]
+    co = d["co"]
+
+    if traffic_level >= 8 and (pm25 > 35 or co > 1.5):
+        return {
+            "cross_domain_correlation": True,
+            "correlation": "Traffic congestion is directly contributing to environmental degradation."
+        }
+
+    if traffic_level >= 5 and pm25 > 20:
+        return {
+            "cross_domain_correlation": True,
+            "correlation": "Transport load is likely influencing air quality conditions."
+        }
+
+    return {
+        "cross_domain_correlation": False,
+        "correlation": "No strong cross-domain dependency detected."
+    }
+
 
 def analyze_city(data):
     results = []
@@ -57,6 +86,19 @@ def analyze_city(data):
 
         anomaly_detected, anomaly_reasons = detect_anomaly(d)
         forecast = forecast_district(d)
+        correlation_info = detect_correlation(d)
+
+        confidence = calculate_confidence(
+            anomaly_detected=anomaly_detected,
+            anomaly_reasons=anomaly_reasons,
+            risk_score=risk_score,
+        )
+
+        decision_score = calculate_decision_score(
+            risk_score=risk_score,
+            anomaly_detected=anomaly_detected,
+            forecast_summary=forecast["forecast_summary"],
+        )
 
         results.append({
             "name": d["district"],
@@ -76,12 +118,16 @@ def analyze_city(data):
                 "score": int(environment_score),
             },
             "risk_score": float(risk_score),
+            "decision_score": float(decision_score),
+            "confidence": float(confidence),
             "priority": priority,
             "color": color,
             "is_problem": priority == "high",
             "anomaly_detected": anomaly_detected,
             "anomaly_reasons": anomaly_reasons,
             "forecast": forecast,
+            "cross_domain_correlation": correlation_info["cross_domain_correlation"],
+            "correlation": correlation_info["correlation"],
         })
 
     return results

@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 def build_overview(districts):
     city_health_index = 100
 
@@ -23,6 +24,9 @@ def build_overview(districts):
     average_pm25 = round(
         sum(d["environment"]["pm25"] for d in districts) / len(districts), 1
     )
+    average_risk_score = round(
+        sum(d["risk_score"] for d in districts) / len(districts), 1
+    )
 
     if city_health_index < 40:
         overall_status = "critical"
@@ -33,7 +37,11 @@ def build_overview(districts):
 
     top_problem_district = None
     if districts:
-        top_problem_district = sorted(districts, key=lambda x: x["risk_score"], reverse=True)[0]["name"]
+        top_problem_district = sorted(
+            districts,
+            key=lambda x: x["risk_score"],
+            reverse=True
+        )[0]["name"]
 
     return {
         "city_health_index": city_health_index,
@@ -41,21 +49,25 @@ def build_overview(districts):
         "critical_districts": critical_districts,
         "average_traffic_level": average_traffic_level,
         "average_pm25": average_pm25,
+        "average_risk_score": average_risk_score,
         "overall_status": overall_status,
         "top_problem_district": top_problem_district,
         "kpi_cards": {
             "traffic": average_traffic_level,
             "air_quality": average_pm25,
+            "risk": average_risk_score,
         },
     }
+
 
 def build_meta():
     return {
         "city": "Almaty",
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "data_source": "simulated urban operational data",
-        "ai_mode": "rule-based explainable decision engine v3",
+        "ai_mode": "rule-based explainable decision engine v4",
     }
+
 
 def build_summary(districts):
     high = [d["name"] for d in districts if d["priority"] == "high"]

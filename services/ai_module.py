@@ -22,6 +22,7 @@ def generate_actions(district):
 
     return actions
 
+
 def extract_top_risks(district):
     risks = []
 
@@ -35,6 +36,7 @@ def extract_top_risks(district):
         risks.append("toxic gas concentration")
 
     return risks
+
 
 def root_cause_analysis(district):
     causes = []
@@ -50,12 +52,36 @@ def root_cause_analysis(district):
 
     return causes
 
+
 def decision_urgency(priority):
     if priority == "high":
         return "immediate"
     if priority == "medium":
-        return "planned"
+        return "short-term"
     return "monitoring"
+
+
+def expected_impact(district):
+    traffic = district["transport"]["traffic_level"]
+    pm25 = district["environment"]["pm25"]
+
+    if traffic >= 8 and pm25 > 35:
+        return "Expected reduction of congestion and pollution pressure within the next 1-2 hours after intervention."
+    if traffic >= 8:
+        return "Expected improvement in traffic flow within the next hour after intervention."
+    if pm25 > 35:
+        return "Expected stabilization of air quality indicators after environmental response."
+    return "Expected impact is moderate; continued monitoring recommended."
+
+
+def summarize_critical_districts(districts):
+    high_priority = sorted(
+        [d for d in districts if d["priority"] == "high"],
+        key=lambda x: x["risk_score"],
+        reverse=True
+    )
+    return [d["name"] for d in high_priority[:3]]
+
 
 def generate_ai_report(districts):
     high_priority = [d for d in districts if d["priority"] == "high"]
@@ -71,17 +97,22 @@ def generate_ai_report(districts):
                 f"Transport congestion and environmental indicators are simultaneously above safe operational thresholds."
             ),
             "criticality": (
-                f"High criticality. Risk score is {top['risk_score']}. "
-                f"Immediate intervention is recommended due to combined transport and ecological degradation."
+                f"High criticality. Risk score is {top['risk_score']}, "
+                f"decision score is {top['decision_score']}, and confidence is {top['confidence']}."
             ),
             "recommended_actions": generate_actions(top),
             "explanation": top["anomaly_reasons"],
             "forecast": top["forecast"]["forecast_summary"],
             "affected_districts": affected_districts,
+            "top_critical_districts": summarize_critical_districts(districts),
             "decision_priority": "high",
             "decision_urgency": decision_urgency(top["priority"]),
             "top_risks": extract_top_risks(top),
             "root_cause": root_cause_analysis(top),
+            "correlation": top["correlation"],
+            "expected_impact": expected_impact(top),
+            "confidence": top["confidence"],
+            "decision_score": top["decision_score"],
         }
 
     if medium_priority:
@@ -94,17 +125,22 @@ def generate_ai_report(districts):
                 f"Some transport or environmental indicators are approaching warning thresholds."
             ),
             "criticality": (
-                f"Medium criticality. Risk score is {top['risk_score']}. "
-                f"Preventive action is recommended to avoid escalation."
+                f"Medium criticality. Risk score is {top['risk_score']}, "
+                f"decision score is {top['decision_score']}, and confidence is {top['confidence']}."
             ),
             "recommended_actions": generate_actions(top),
             "explanation": top["anomaly_reasons"],
             "forecast": top["forecast"]["forecast_summary"],
             "affected_districts": affected_districts,
+            "top_critical_districts": summarize_critical_districts(districts),
             "decision_priority": "medium",
             "decision_urgency": decision_urgency(top["priority"]),
             "top_risks": extract_top_risks(top),
             "root_cause": root_cause_analysis(top),
+            "correlation": top["correlation"],
+            "expected_impact": expected_impact(top),
+            "confidence": top["confidence"],
+            "decision_score": top["decision_score"],
         }
 
     return {
@@ -114,8 +150,13 @@ def generate_ai_report(districts):
         "explanation": ["No critical anomalies detected"],
         "forecast": "Conditions are expected to remain stable in the next 1-2 hours.",
         "affected_districts": [],
+        "top_critical_districts": [],
         "decision_priority": "low",
         "decision_urgency": "monitoring",
         "top_risks": [],
         "root_cause": [],
+        "correlation": "No significant cross-domain stress detected.",
+        "expected_impact": "No immediate intervention impact required.",
+        "confidence": 0.95,
+        "decision_score": 15.0,
     }
