@@ -8,28 +8,20 @@ from services.formatter import build_overview, build_meta, build_summary
 
 app = FastAPI(title="Smart City AI Backend")
 
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
 @app.get("/")
 def root():
     return {
         "message": "Smart City AI Backend is running",
-        "available_endpoints": [
-            "/api/overview",
-            "/api/districts",
-            "/api/ai-report",
-            "/api/trends",
-            "/api/dashboard",
-            "/api/alerts",
-            "/api/ranking",
-        ],
+        "status": "OK",
     }
 
 
@@ -60,11 +52,10 @@ def get_districts():
 def get_ai_report():
     current_data = load_current_data()
     analyzed = analyze_city(current_data)
-    ai_report = generate_ai_report(analyzed)
 
     return {
         "meta": build_meta(),
-        "ai_report": ai_report,
+        "ai_report": generate_ai_report(analyzed),
     }
 
 
@@ -105,19 +96,14 @@ def get_dashboard():
     current_data = load_current_data()
     history = load_history_data()
     analyzed = analyze_city(current_data)
-    ai_report = generate_ai_report(analyzed)
-    overview = build_overview(analyzed)
-    summary = build_summary(analyzed)
-    alerts = generate_alerts(analyzed)
-    ranking = district_ranking(analyzed)
 
     return {
         "meta": build_meta(),
-        "overview": overview,
-        "summary": summary,
+        "overview": build_overview(analyzed),
+        "summary": build_summary(analyzed),
         "districts": analyzed,
-        "ai_report": ai_report,
+        "ai_report": generate_ai_report(analyzed),
         "history": history,
-        "alerts": alerts,
-        "ranking": ranking,
+        "alerts": generate_alerts(analyzed),
+        "ranking": district_ranking(analyzed),
     }
